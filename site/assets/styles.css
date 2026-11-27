@@ -1,0 +1,276 @@
+/* Dark by default, light when the visitor's system asks for it. */
+:root {
+  --rc-teal: #008878;
+  --rc-purple: #a044db;
+
+  --bg: #0b1220;
+  --frame: #111a2c;
+  --panel: #0e1626;
+  --line: #22304a;
+  --ink: #eef2f8;
+  --muted: #a7b2c6;
+  --input: #18233a;
+  --accent: #2bc4ae;
+  --tip-bg: #0f2a33;
+  --tip-line: #1f6f78;
+  --notice-bg: #151f33;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f3f6fa;
+    --frame: #ffffff;
+    --panel: #f8fafc;
+    --line: #dbe2ec;
+    --ink: #14202f;
+    --muted: #556275;
+    --input: #ffffff;
+    --accent: #007566;
+    --tip-bg: #e9f7f5;
+    --tip-line: #9fd8cf;
+    --notice-bg: #e6ecf4;
+    color-scheme: light;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+}
+
+.notice {
+  background: var(--notice-bg);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Header: logo with a Registry label, page links, then community icons. */
+.site-header {
+  padding-inline: 16px;
+}
+
+.header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-block: 18px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: inline-flex;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  height: 48px;
+  width: auto;
+}
+
+.main-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.main-nav a,
+.icon-nav a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.main-nav a[aria-current="page"],
+.main-nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+.icon-nav {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.icon-nav a:hover {
+  color: var(--accent);
+}
+
+/* Framed area: breadcrumb on top, sidebar and content below. */
+.frame {
+  width: calc(100% - 32px);
+  max-width: 1240px;
+  margin: 0 auto 32px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--frame);
+  overflow: hidden;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.breadcrumb a {
+  color: var(--ink);
+  display: inline-flex;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  min-height: 560px;
+}
+
+.sidebar {
+  border-right: 1px solid var(--line);
+  padding: 20px 16px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input);
+  color: var(--muted);
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.content {
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-icon {
+  width: 160px;
+  height: auto;
+}
+
+h1 {
+  margin: 24px 0 8px;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.lead {
+  margin: 0;
+  max-width: 34em;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.lead strong {
+  color: var(--ink);
+}
+
+h2 {
+  margin: 56px 0 20px;
+  font-size: 20px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 680px;
+  text-align: left;
+}
+
+h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.columns ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.columns li + li {
+  margin-top: 6px;
+}
+
+.tip {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 680px;
+  margin-top: 40px;
+  padding: 16px;
+  border: 1px solid var(--tip-line);
+  border-radius: 8px;
+  background: var(--tip-bg);
+  text-align: left;
+  font-size: 15px;
+}
+
+.tip svg {
+  flex: none;
+  color: var(--accent);
+}
+
+.tip p {
+  margin: 4px 0 0;
+}
+
+@media (max-width: 820px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}

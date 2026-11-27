@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Runtime Conditions Extension Registry</title>
+    <meta name="description" content="Find Runtime Conditions extensions and the Go, Python, TypeScript and Java packages generated from them." />
+    <link rel="icon" type="image/svg+xml" href="assets/runtime-conditions-icon.svg" />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <div class="notice">
+      This is an early preview of the extension registry. Pages and search are still being built.
+    </div>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./">
+          <img src="assets/runtime-conditions-logo.svg" width="141" height="48" alt="Runtime Conditions" />
+        </a>
+        <nav class="main-nav" aria-label="Main">
+          <a href="./" aria-current="page">Home</a>
+          <a href="https://github.com/runtimeconditions/extensions/tree/main/catalog">Extensions</a>
+          <a href="https://runtimeconditions.io/extensions.html">Docs</a>
+        </nav>
+        <nav class="icon-nav" aria-label="Community">
+          <a href="https://github.com/runtimeconditions" aria-label="GitHub" title="GitHub">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.3-.5-1.5.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          </a>
+          <a href="https://cloud-native.slack.com/archives/C0C0R4M65FZ" aria-label="Slack" title="CNCF Slack">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="frame">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="./" aria-label="Home">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg>
+        </a>
+        <span aria-hidden="true">›</span>
+        <span>Search</span>
+      </nav>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input type="search" placeholder="Search extensions (coming soon)" disabled aria-label="Search extensions" />
+          </label>
+        </aside>
+
+        <main class="content">
+          <img class="hero-icon" src="assets/runtime-conditions-icon.svg" width="160" height="119" alt="" />
+          <h1>Find what your app can declare</h1>
+          <p class="lead">
+            Browse extensions and their packages for
+            <strong>Go, Python, TypeScript and Java</strong>,
+            to write Runtime Conditions Profiles from your code.
+          </p>
+
+          <h2>What can you find here?</h2>
+          <div class="columns">
+            <section>
+              <h3>Extensions</h3>
+              <ul>
+                <li>Common needs: APIs, databases and caches</li>
+                <li>AWS services: S3 and SQS</li>
+                <li>Messaging: Kafka, NATS and RabbitMQ</li>
+                <li>Platform: GPU, file system and Kubernetes API</li>
+              </ul>
+            </section>
+            <section>
+              <h3>Packages</h3>
+              <ul>
+                <li>Go modules</li>
+                <li>Python packages on PyPI</li>
+                <li>TypeScript packages on npm</li>
+                <li>Java packages on Maven Central</li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="tip">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7h.01"/></svg>
+            <div>
+              <strong>Until search is ready</strong>
+              <p>Browse every extension in the <a href="https://github.com/runtimeconditions/extensions/tree/main/catalog">extensions catalog</a>, or read how extensions work in the <a href="https://runtimeconditions.io/extensions.html">guide</a>.</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
