@@ -202,7 +202,8 @@ a {
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--frame);
-  overflow: hidden;
+  /* clip, not hidden: hidden would stop the sticky "On this page" list. */
+  overflow: clip;
 }
 
 .breadcrumb {
@@ -340,9 +341,13 @@ h3 {
 }
 
 /* Sidebar: search, the Available extensions link, and "On this page". */
-.sidebar-inner {
+/* "On this page" stays in view while the page scrolls past it. */
+.toc {
   position: sticky;
-  top: 16px;
+  top: 0;
+  max-height: 100vh;
+  padding-top: 16px;
+  overflow-y: auto;
 }
 
 .search kbd {
@@ -943,10 +948,6 @@ caption code {
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid var(--line);
-  }
-
-  .sidebar-inner {
-    position: static;
   }
 
   .toc {
