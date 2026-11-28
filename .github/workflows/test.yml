@@ -1,0 +1,44 @@
+name: Test
+
+# Runs the registry data tests, then builds registry.json from the current
+# extensions repository to catch catalog changes the script cannot read.
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check out extensions repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: runtimeconditions/extensions
+          path: extensions-src
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Run tests
+        run: python -m unittest discover -s scripts -v
+
+      - name: Build registry.json from the extensions repository
+        run: python scripts/build_registry.py --extensions extensions-src --output _site/registry.json
