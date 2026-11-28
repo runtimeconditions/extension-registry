@@ -1,21 +1,24 @@
 /* Dark by default. The header toggle, or the system setting, switches to light. */
 :root {
+  /* --dark-level and --light-level (0 to 100) come from the slider in the header.
+     Dark: 0 is the darkest, 100 the lightest. Light: 0 is the whitest, 100 the softest. */
+  --dark-level: 40;
+  --light-level: 40;
   --rc-teal: #008878;
   --rc-purple: #a044db;
 
-  --bg: #0b1220;
-  --frame: #111a2c;
-  --panel: #0e1626;
-  --line: #22304a;
+  --bg: color-mix(in srgb, #070b13, #121d33 calc(var(--dark-level) * 1%));
+  --frame: color-mix(in srgb, #0a101a, #1b2a46 calc(var(--dark-level) * 1%));
+  --panel: color-mix(in srgb, #080d17, #16233d calc(var(--dark-level) * 1%));
+  --line: color-mix(in srgb, #141d2c, #364d76 calc(var(--dark-level) * 1%));
   --ink: #eef2f8;
   --muted: #a7b2c6;
-  --input: #18233a;
+  --input: color-mix(in srgb, #0e1523, #26385d calc(var(--dark-level) * 1%));
   --accent: #2bc4ae;
-  --tip-bg: #0f2a33;
+  --tip-bg: color-mix(in srgb, #09191f, #184352 calc(var(--dark-level) * 1%));
   --tip-line: #1f6f78;
-  --notice-bg: #151f33;
-  --code-bg: #0a1120;
-  --code-inline-bg: #26344f;
+  --code-bg: color-mix(in srgb, #060a13, #101b33 calc(var(--dark-level) * 1%));
+  --code-inline-bg: color-mix(in srgb, #171f2f, #3d537e calc(var(--dark-level) * 1%));
   --tok-comment: #7f8ba3;
   --tok-keyword: #c792ea;
   --tok-string: #a5d6a7;
@@ -28,19 +31,18 @@
 /* Light when the system asks for it, unless the reader picked dark with the toggle. */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg: #f3f6fa;
-    --frame: #ffffff;
-    --panel: #f8fafc;
-    --line: #dbe2ec;
+    --bg: color-mix(in srgb, #fafbfd, #e8eef6 calc(var(--light-level) * 1%));
+    --frame: color-mix(in srgb, #ffffff, #eef2f7 calc(var(--light-level) * 1%));
+    --panel: color-mix(in srgb, #fcfdfe, #f2f6f9 calc(var(--light-level) * 1%));
+    --line: color-mix(in srgb, #f1f3f7, #bbc8db calc(var(--light-level) * 1%));
     --ink: #14202f;
     --muted: #556275;
-    --input: #ffffff;
+    --input: color-mix(in srgb, #ffffff, #f1f4f8 calc(var(--light-level) * 1%));
     --accent: #007566;
-    --tip-bg: #e9f7f5;
+    --tip-bg: color-mix(in srgb, #f6fcfb, #d5f0ec calc(var(--light-level) * 1%));
     --tip-line: #9fd8cf;
-    --notice-bg: #e6ecf4;
-    --code-bg: #f6f8fb;
-    --code-inline-bg: #dde5f0;
+    --code-bg: color-mix(in srgb, #fbfcfd, #eef2f7 calc(var(--light-level) * 1%));
+    --code-inline-bg: color-mix(in srgb, #f1f5f9, #becee2 calc(var(--light-level) * 1%));
     --tok-comment: #6a7385;
     --tok-keyword: #8a2fb8;
     --tok-string: #2f7a32;
@@ -53,19 +55,18 @@
 
 /* Light when the reader picked it with the toggle. */
 :root[data-theme="light"] {
-  --bg: #f3f6fa;
-  --frame: #ffffff;
-  --panel: #f8fafc;
-  --line: #dbe2ec;
+  --bg: color-mix(in srgb, #fafbfd, #e8eef6 calc(var(--light-level) * 1%));
+  --frame: color-mix(in srgb, #ffffff, #eef2f7 calc(var(--light-level) * 1%));
+  --panel: color-mix(in srgb, #fcfdfe, #f2f6f9 calc(var(--light-level) * 1%));
+  --line: color-mix(in srgb, #f1f3f7, #bbc8db calc(var(--light-level) * 1%));
   --ink: #14202f;
   --muted: #556275;
-  --input: #ffffff;
+  --input: color-mix(in srgb, #ffffff, #f1f4f8 calc(var(--light-level) * 1%));
   --accent: #007566;
-  --tip-bg: #e9f7f5;
+  --tip-bg: color-mix(in srgb, #f6fcfb, #d5f0ec calc(var(--light-level) * 1%));
   --tip-line: #9fd8cf;
-  --notice-bg: #e6ecf4;
-  --code-bg: #f6f8fb;
-  --code-inline-bg: #dde5f0;
+  --code-bg: color-mix(in srgb, #fbfcfd, #eef2f7 calc(var(--light-level) * 1%));
+  --code-inline-bg: color-mix(in srgb, #f1f5f9, #becee2 calc(var(--light-level) * 1%));
   --tok-comment: #6a7385;
   --tok-keyword: #8a2fb8;
   --tok-string: #2f7a32;
@@ -89,15 +90,6 @@ body {
 
 a {
   color: var(--accent);
-}
-
-.notice {
-  background: var(--notice-bg);
-  border-bottom: 1px solid var(--line);
-  padding: 10px 16px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
 }
 
 /* Header: logo, page links, then community icons. */
@@ -155,6 +147,13 @@ a {
 
 .icon-nav a:hover {
   color: var(--accent);
+}
+
+/* Brightness slider: the dark level in the dark theme, the light level in the light theme. */
+.theme-level {
+  width: 72px;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .theme-toggle {
