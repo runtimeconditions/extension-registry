@@ -1,4 +1,5 @@
 import json
+import subprocess
 import tempfile
 import textwrap
 import unittest
@@ -179,6 +180,90 @@ class RegistryTest(unittest.TestCase):
         registry = json.loads(first)
         self.assertEqual(registry["schemaVersion"], 1)
         self.assertEqual(registry["source"]["repository"], "https://github.com/runtimeconditions/extensions")
+
+
+def manifest(extension_id, version):
+    return (
+        "kind: RuntimeConditionsBindingManifest\n"
+        f"extension:\n  id: {extension_id}\n"
+        f"package:\n  version: {version}\n"
+    )
+
+
+QUEUE = "https://runtimeconditions.io/extensions/demo/queue/{}/runtimeconditions.extension.yaml"
+
+
+class HistoryTest(unittest.TestCase):
+    """Older extension versions get the packages generated from them, read from git."""
+
+    write = RegistryTest.write
+    extension = RegistryTest.extension
+    tearDown = RegistryTest.tearDown
+
+    def git(self, *args):
+        subprocess.run(
+            ["git", "-c", "user.name=test", "-c", "user.email=test@example.com", *args],
+            cwd=self.root,
+            check=True,
+            capture_output=True,
+        )
+
+    def commit(self, message):
+        self.git("add", "-A")
+        self.git("commit", "-q", "-m", message)
+
+    def setUp(self):
+        RegistryTest.setUp(self)
+        go = "bindings/demo-queue/go/runtimeconditions.bindings.yaml"
+        java = "bindings/demo-queue/java/src/runtimeconditions.bindings.yaml"
+        self.git("init", "-q")
+        self.write(go, manifest(QUEUE.format("0.9.0"), "v0.2.0"))
+        self.commit("go 0.2.0 from 0.9.0")
+        self.git("tag", "bindings/demo-queue/go/v0.2.0")
+        # The same version regenerated later is not what the tag published.
+        self.write(go, manifest(QUEUE.format("0.10.0"), "v0.2.0"))
+        self.commit("go 0.2.0 regenerated")
+        self.write(go, manifest(QUEUE.format("0.10.0"), "v0.3.0"))
+        self.write(java, manifest("https://runtimeconditions.io/demo-queue:0.10.0", "0.1.0"))
+        self.commit("go 0.3.0 and java 0.1.0")
+
+    def fetch(self, url):
+        if "maven" in url:
+            return 200, "<metadata><versioning><versions><version>0.1.0</version></versions></versioning></metadata>"
+        return None
+
+    def test_tags_decide_go_and_older_versions_get_their_packages(self):
+        registry = build_registry.build(self.root, check_registries=True, fetch=self.fetch)
+        latest, older = self.extension(registry, "demo/queue")["versions"]
+        old_go = older["packages"]["go"]
+        self.assertEqual((old_go["version"], old_go["published"]), ("0.2.0", True))
+        self.assertEqual(old_go["readmeCommit"], "bindings/demo-queue/go/v0.2.0")
+        self.assertEqual(old_go["readme"], "bindings/demo-queue/go/README.md")
+        go = latest["packages"]["go"]
+        self.assertEqual((go["version"], go["published"]), ("0.3.0", False))
+        self.assertEqual(go["versions"], [{"version": "0.3.0", "published": False}])
+        self.assertIsNone(go["readmeCommit"])
+
+    def test_early_ids_map_to_the_catalog_and_registries_set_published(self):
+        registry = build_registry.build(self.root, check_registries=True, fetch=self.fetch)
+        latest = self.extension(registry, "demo/queue")["versions"][0]
+        self.assertEqual(latest["packages"]["java"]["published"], True)
+
+    def test_without_registry_checks_published_is_unknown(self):
+        registry = build_registry.build(self.root)
+        java = self.extension(registry, "demo/queue")["versions"][0]["packages"]["java"]
+        self.assertIsNone(java["published"])
+
+    def test_registry_answers(self):
+        self.assertEqual(build_registry.registry_versions("python", "x", lambda url: (404, "")), set())
+        self.assertIsNone(build_registry.registry_versions("python", "x", lambda url: (500, "")))
+        self.assertEqual(
+            build_registry.registry_versions("typescript", "@scope/x", lambda url: (200, '{"versions": {"1.0.0": {}}}')),
+            {"1.0.0"},
+        )
+        seen = []
+        build_registry.registry_versions("typescript", "@scope/x", lambda url: seen.append(url))
+        self.assertEqual(seen, ["https://registry.npmjs.org/@scope%2fx"])
 
 
 if __name__ == "__main__":
